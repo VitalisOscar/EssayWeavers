@@ -1,0 +1,68 @@
+.uploadHandler{
+    border: 4px dashed #04182c40;
+    border-radius: .4rem;
+    background: #1e90ff10;
+    cursor: pointer;
+    transition: .2s all !important;
+}
+
+.uploadHandler.medium{
+    padding: 3.5rem;
+}
+
+.uploadHandler.mini{
+    padding: 1.5rem 3.5rem;
+}
+
+.uploadHandler.drag-active{
+    background: #1e90ff;
+    border-color: #1e90ff;
+    color: #fff;
+}
+
+.uploaded-files .file{
+    padding: .7rem 1rem;
+    border-radius: .3rem;
+    border: 1px solid #eee;
+    transition: .2s all !important;
+}
+
+.uploaded-files > div{
+    margin-bottom: 1rem;
+}
+
+.uploaded-files .file:hover{
+    background: #eee;
+}
+
+.uploaded-files .file-name{
+    max-width: calc(100% - 55px);
+}
+
+.uploaded-files .remove-file{
+    display: none;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: .2s all !important;
+}
+
+.uploaded-files .file:hover .remove-file{
+    background: #ff404030;
+    color: #fff;
+}
+
+.uploadHandler .drag-file-element {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
