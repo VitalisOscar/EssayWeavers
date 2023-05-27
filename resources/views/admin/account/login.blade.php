@@ -71,6 +71,15 @@
                         @enderror
                     </div>
 
+                    <div class="form-group mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="remember" name="remember_me" class="custom-control-input" />
+                            <label for="remember" class="custom-control-label">
+                                <span>Remember me</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div>
                         <button class="btn btn-block btn-default">Log In</button>
                     </div>
