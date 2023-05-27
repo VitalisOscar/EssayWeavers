@@ -23,7 +23,7 @@ class SingleOrderController extends Controller
 
     function acceptOrderAllocation($order){
         $writer = $this->writer();
-        
+
         $allocation = $order->allocations()
             ->latest()
             ->where('writer_id', $writer->id)
@@ -152,14 +152,15 @@ class SingleOrderController extends Controller
 
             // Save submission
             $submission = $assignment->submissions()->create([
-                'answer' => $request->post('answer'),
+                'answer' => $request->post('answer') && strlen($request->post('answer')) ?
+                    $request->post('answer') : 'Attached.',
                 'is_final' => $request->boolean('is_final'),
             ]);
 
             // Save attachments
             if($request->hasFile('plag_report')){
                 $plagReport = $request->file('plag_report');
-                
+
                 $submission->attachments()->create([
                     'name' => $plagReport->getClientOriginalName(),
                     'path' => $plagReport->store('attachments', 'public'),
@@ -199,7 +200,7 @@ class SingleOrderController extends Controller
 
         return $this->json([
             'success' => false,
-            'status' => 'Something went wrong. Please retry'
+            'status' => 'Something went wrong. Please retry: '.$e->getMessage()
         ]);
     }
 

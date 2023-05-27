@@ -22,6 +22,8 @@ export default function AddSubmission({ order, setOrder = null }){
     const [attachedFiles, setAttachedFiles] = useState([])
     const [plagReport, setPlagReport] = useState([])
 
+    console.log(plagReport)
+
     function onSubmit(event){
         event.preventDefault()
 
@@ -59,7 +61,7 @@ export default function AddSubmission({ order, setOrder = null }){
         }
 
         if(plagReport.length){
-            formData.append('plag_report', plagReport[i]);
+            formData.append('plag_report', plagReport[0]);
         }
 
         post(generateUrl(WriterApi.ADD_SUBMISSION, {order_id: order.id}), formData)
@@ -105,7 +107,7 @@ export default function AddSubmission({ order, setOrder = null }){
                     <div className="card-header rounded-top d-flex align-items-center" style={{background: '#f6f9fc'}}>
                         <h2 className="heading-title mb-0 font-weight-700">
                             {
-                                order.status == 'Settled' ? 'Add Submission' :
+                                order.status == 'Settled' || order.status == 'Completed' ? 'Add Submission' :
                                     (
                                         data.is_final ? 'Final Submission' : 'Draft Submission'
                                     )
@@ -150,8 +152,8 @@ export default function AddSubmission({ order, setOrder = null }){
 
                                         {
                                             result.errors != undefined && result.errors.plag_report != undefined ?
-                                            <span className="text-danger">{result.errors.plag_repport}</span>
-                                            :<span>Click the input to select the order's plagiarism report</span>
+                                            <span className="text-danger">{result.errors.plag_report}</span>
+                                            :<span>Click the input to select the order's plagiarism report. This should be a pdf or word document</span>
                                         }
                                     </div>
                                 </div>
@@ -205,10 +207,10 @@ export default function AddSubmission({ order, setOrder = null }){
 
                                     <div className="col-md-12">
                                         <div className="form-group">
-                                            <h4><strong>Draft Submissio</strong></h4>
+                                            <h4><strong>Draft Submission</strong></h4>
 
                                             <p>
-                                                This is a draft submission. The order will still remain active the until you send a final submission
+                                                This is a draft submission. The order will still remain active until you send a final submission
                                             </p>
                                         </div>
                                     </div>

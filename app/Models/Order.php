@@ -202,7 +202,7 @@ class Order extends Model
             'submissions' => function($q){
                 $q->latest();
             },
-            'attachments', 'assignments.payments', 'submissions'
+            'attachments', 'assignments.payments'
         ]);
 
         return $this->writerArray();
