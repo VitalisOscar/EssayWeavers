@@ -9,7 +9,8 @@ use App\Http\Controllers\Writer\Payments\PaymentsController;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard
-Route::get('dashboard-data', [DashboardController::class, 'getDashboardData'])->name('.dashboard_data');
+Route::get('dashboard-data', [DashboardController::class, 'getDashboardData'])->name('dashboard_data');
+Route::get('profile', [DashboardController::class, 'getProfile'])->name('profile');
 
 // Payments
 Route::prefix('payments')
@@ -38,7 +39,7 @@ Route::prefix('orders')
         Route::post('accept-allocation', [SingleOrderController::class, 'acceptOrderAllocation'])->name('accept_allocation');
         Route::post('decline-allocation', [SingleOrderController::class, 'declineOrderAllocation'])->name('decline_allocation');
         Route::post('add-submission', [SingleOrderController::class, 'addSubmission'])->name('add_submission');
-        
+
     });
 
 });
@@ -53,7 +54,7 @@ Route::prefix('data')
     ->group(function(){
 
         Route::get('status-counters', [OrdersDataController::class, 'statusCounters'])->name('.status_counters');
-    
+
     });
 
 });

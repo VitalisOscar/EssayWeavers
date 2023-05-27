@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Writer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -27,6 +28,13 @@ class Controller extends BaseController
      */
     function writer(){
         return auth('writer')->user();
+    }
+
+    /**
+     * @return Admin
+     */
+    function admin(){
+        return auth('admin')->user();
     }
 
     function json($data){

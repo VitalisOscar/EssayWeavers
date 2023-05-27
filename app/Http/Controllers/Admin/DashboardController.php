@@ -26,4 +26,12 @@ class DashboardController extends Controller
             'settled_orders' => number_format($settledOrders),
         ]);
     }
+
+    function getProfile(){
+        $admin = $this->admin();
+
+        return $this->json([
+            'data' => $admin ? $admin->simpleArray() : null
+        ]);
+    }
 }

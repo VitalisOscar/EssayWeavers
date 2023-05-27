@@ -34,4 +34,12 @@ class DashboardController extends Controller
             'new_orders' => $newOrders
         ]);
     }
+
+    function getProfile(){
+        $writer = $this->writer();
+
+        return $this->json([
+            'data' => $writer ? $writer->simpleArray() : null
+        ]);
+    }
 }

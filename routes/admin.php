@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 // Dashboard
 Route::get('dashboard-data', [DashboardController::class, 'getDashboardData'])->name('.dashboard_data');
+Route::get('profile', [DashboardController::class, 'getProfile'])->name('profile');
 
 
 // Writers

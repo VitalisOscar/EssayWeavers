@@ -134,4 +134,16 @@ class Writer extends Authenticatable
             ],
         ];
     }
+
+    function simpleArray(){
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'status' => $this->status,
+            'date' => $this->date_added_formatted
+        ];
+    }
 }

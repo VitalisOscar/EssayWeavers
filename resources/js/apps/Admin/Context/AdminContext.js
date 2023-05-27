@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import {get} from "../../Shared/Helpers/Request";
+import {WriterApi} from "../../Writer/Config/WriterApi";
+import {AdminApi} from "../Config/AdminApi";
 
 const AdminContext = React.createContext();
 
@@ -11,7 +14,19 @@ function AdminProvider({ children }){
         modalOpen: false,
         modalContent: <></>,
         hasStats: false,
+        profile: null
     })
+
+    useEffect(getProfile, [])
+
+    function getProfile(){
+        get(AdminApi.PROFILE)
+            .then(response => {
+                if(response.data){
+                    setAdminData({ ...adminData, profile: response.data })
+                }
+            })
+    }
 
     if(adminData.modalOpen){
         $('#mainModal').modal('show', {

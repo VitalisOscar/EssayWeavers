@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { WriterContext } from '../../Context/WriterContext';
 import Sidenav from './Sidenav';
+import {Link} from "react-router-dom";
+import {WriterRoutes} from "../../Config/WriterRoutes";
 
 export default function Header() {
     const {writerData} = useContext(WriterContext)
@@ -35,6 +37,33 @@ export default function Header() {
                                     </span>
                                     <span>{writerData.headerName}</span>
                                 </h3>
+
+                                {
+                                    writerData.profile &&
+                                    <div className="ml-auto dropdown">
+                                        <button className="btn btn-outline-white dropdown-toggle" data-toggle={"dropdown"}>
+                                            <i className="fa fa-user-o mr-1"></i>{writerData.profile.name}
+                                        </button>
+
+                                        <ul className="dropdown-menu dropdown-menu-right mr-4">
+                                            <li className="dropdown-item">
+                                                <Link to={WriterRoutes.UPDATE_PASSWORD} className="dropdown-link">
+                                                    <i className="fa fa-lock icon colored-icon icon-sm bg-primary"></i>
+                                                    Update Password
+                                                </Link>
+                                            </li>
+
+                                            <li className="dropdown-divider my-0"></li>
+
+                                            <li className="dropdown-item">
+                                                <a href="/logout/writer" className="dropdown-link">
+                                                    <i className="fa fa-power-off icon colored-icon icon-sm bg-warning"></i>
+                                                    Log out
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
                             </div>
 
                         </div>

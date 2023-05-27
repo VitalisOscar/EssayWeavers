@@ -2,6 +2,7 @@ const BASE = '/ajax/admin/'
 
 const AdminApi = {
     DASHBOARD_DATA: BASE + 'dashboard-data',
+    PROFILE: BASE + 'profile',
 
     // Payouts
     LIST_PAYOUTS: BASE + 'payments/all',

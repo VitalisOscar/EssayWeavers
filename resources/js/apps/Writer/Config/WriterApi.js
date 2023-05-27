@@ -3,6 +3,7 @@ const BASE = '/ajax/writer/'
 const WriterApi = {
 
     DASHBOARD_DATA: BASE + 'dashboard-data',
+    PROFILE: BASE + 'profile',
 
     // Payments
     LIST_PAYOUTS: BASE + 'payments/payouts/',
