@@ -41,12 +41,15 @@ export default function FileHandler({ previousFiles = [], onChange = null, multi
     };
 
     function handleAddedFiles(newFiles){
-        if(multiple){   
-            files.push(...newFiles);
+        let filesToAdd = []
+        if(multiple){
+            filesToAdd.push(...newFiles)
         }else{
-            setFiles([newFiles[0]])
+            files.splice(0, files.length)
+            filesToAdd = [newFiles[0]]
         }
 
+        files.push(...filesToAdd);
         setFiles([...files])
         if(onChange) onChange([...files])
     }
@@ -65,7 +68,7 @@ export default function FileHandler({ previousFiles = [], onChange = null, multi
                 >
 
                 <div className="drag-file-element" onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}></div>
-                
+
                 <div>
                     {
                         multiple ?
