@@ -83,7 +83,7 @@ export default function Sidenav({ open, setOpen }) {
                 <div className="sidenav-header text-left d-flex align-items-center mb-0">
                     <NavLink to={AdminRoutes.DASHBOARD} className="navbar-brand font-weight-700 mr-0" >
                         {/* <img src="static/img/nav_logo.png" className="img-fluid" alt="VMS" style={{maxWidth: "160px"}} /> */}
-                        StarWriters
+                        EssayWeavers
                     </NavLink>
 
                     <div className="ml-auto mr-3 sidenav-toggler sidenav-toggler-dark px-0 d-xl-none" data-action="sidenav-pin" data-target="#sidenav-main">
