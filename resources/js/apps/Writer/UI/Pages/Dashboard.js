@@ -20,7 +20,7 @@ export default function Dashboard(){
 
         refreshData()
 
-        setInterval(refreshData, 60000)
+        //setInterval(refreshData, 60000)
     }, [])
 
     function refreshData(){
