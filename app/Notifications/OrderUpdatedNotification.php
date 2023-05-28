@@ -11,14 +11,16 @@ class OrderUpdatedNotification extends Notification
 {
     use Queueable;
 
+    public $order;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -41,9 +43,11 @@ class OrderUpdatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Order Updated: '.$this->order->title)
+            ->view('mail.new_order', [
+                'name' => $this->order->current_writer->name,
+                'order' => $this->order
+            ]);
     }
 
     /**
