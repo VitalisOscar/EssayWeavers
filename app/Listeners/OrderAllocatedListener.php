@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\OrderAllocatedEvent;
 use App\Models\Log;
 use App\Models\Order;
+use App\Notifications\OrderAllocatedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -34,5 +35,7 @@ class OrderAllocatedListener
             'event' => 'Order allocated',
             'data' => $event->allocation
         ]);
+
+        $event->allocation->writer->notify(new OrderAllocatedNotification($event->allocation));
     }
 }

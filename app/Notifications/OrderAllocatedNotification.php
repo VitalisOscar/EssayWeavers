@@ -11,14 +11,16 @@ class OrderAllocatedNotification extends Notification
 {
     use Queueable;
 
+    public $allocation;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($allocation)
     {
-        //
+        $this->allocation = $allocation;
     }
 
     /**
@@ -41,9 +43,13 @@ class OrderAllocatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('New order received')
+            ->view('mail.new_order', [
+                'name' => $this->allocation->writer->name,
+                'order' => $this->allocation->order,
+                'price' => $this->allocation->price_formatted,
+                'deadline' => $this->allocation->deadline_formatted,
+            ]);
     }
 
     /**
