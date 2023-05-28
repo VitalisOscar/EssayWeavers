@@ -4,6 +4,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return view('home');
+});
+
 Route::get('admin/{path?}', function () {
     return view('admin.app');
 })
@@ -33,9 +37,13 @@ Route::prefix('ajax/admin')
 ->group(base_path('routes/admin.php'));
 
 Route::prefix('ajax/writer')
-->middleware('auth:writer', 'active')
+->middleware(['auth:writer', 'active'])
 ->name('writer.')
 ->group(base_path('routes/writer.php'));
+
+Route::get('settings', \App\Http\Controllers\SettingsController::class)
+    ->name('settings')
+    ->middleware('auth:admin');
 
 Route::get('attachment/{attachment}', [\App\Http\Controllers\AttachmentsController::class, 'getAttachment'])
     ->name('download_attachment')
