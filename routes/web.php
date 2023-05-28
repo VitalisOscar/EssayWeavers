@@ -37,5 +37,6 @@ Route::prefix('ajax/writer')
 ->name('writer.')
 ->group(base_path('routes/writer.php'));
 
-Route::get('attachment/{attachment}', [\App\Http\Controllers\AttachmentsController::class, 'getAttachment'])->name('attachment')
+Route::get('attachment/{attachment}', [\App\Http\Controllers\AttachmentsController::class, 'getAttachment'])
+    ->name('download_attachment')
     ->middleware('auth:writer,admin');
