@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AttachmentsController extends Controller
 {
@@ -14,13 +15,19 @@ class AttachmentsController extends Controller
                 ]);
         }
 
+        $path = 'app/public/'.$attachment->path;
+
+        if(!Storage::exists($path)){
+            $path = 'app/'.$attachment->path;
+        }
+
         // If image, return the url
         if($attachment->isImage()){
-            return response()->file(storage_path('app/public/'.$attachment->path));
+            return response()->file(storage_path($path));
         }
 
         // Return file download response
-        return response()->download(storage_path('app/public/'.$attachment->path), $attachment->name);
+        return response()->download(storage_path($path), $attachment->name);
     }
 
 }
