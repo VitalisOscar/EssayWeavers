@@ -9,7 +9,7 @@ export default function Sidenav({ open, setOpen }) {
 
     useEffect(fetchCounters, [])
 
-    setInterval(fetchCounters, 60000)
+    // setInterval(fetchCounters, 60000)
 
     const [groups, setGroups] = useState([
         {
