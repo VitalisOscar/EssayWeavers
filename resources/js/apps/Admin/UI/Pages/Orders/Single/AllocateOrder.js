@@ -19,7 +19,7 @@ export default function AllocateOrder(){
 
     const writers = useWriters()
 
-    const profit = useOrderMetricsProfit(order.price_raw, (data.writer_price + order.bidder_commission))
+    const profit = useOrderMetricsProfit((order.price_raw - order.bidder_commission), data.writer_price)
     const reviewTime = useOrderMetricsTimeToDeadline(order.deadline_raw, data.writer_deadline)
 
     let selectedWriterName = ' the selected writer'
@@ -129,7 +129,7 @@ export default function AllocateOrder(){
                                 <div className="col-md-12 col-xl-4">
                                     <div className="form-group mb-xl-0">
                                         <label><strong>Writer's Payment</strong></label>
-                                        <input placeholder={order.price - order.bidder_commission} className="form-control" type="number" value={data.writer_price} onChange={(e) => setData({...data, writer_price: e.target.value})} required />
+                                        <input placeholder={order.price_raw - order.bidder_commission} className="form-control" type="number" value={data.writer_price} onChange={(e) => setData({...data, writer_price: e.target.value})} required />
                                         {
                                             result.errors != undefined && result.errors.writer_price != undefined ?
                                             <span className="text-danger">{result.errors.writer_price}</span>
@@ -184,7 +184,10 @@ export default function AllocateOrder(){
                                             </div>
 
                                             <div className="mb-3">
-                                                This is the amount you will remain with after paying the writer their share based on what you will receive from the source ({order.source.name})
+                                                {
+                                                    'This is the amount you will remain with after paying the writer their share based on what you will receive from the source (' + order.source.name + ')'
+                                                    + (order.bidder_commission > 0 ? (' and after you pay the bidder their commission (' + order.bidder_commission_formatted + ')') : '')
+                                                }
                                             </div>
                                         </div>
                                     </div>
