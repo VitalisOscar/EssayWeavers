@@ -56,7 +56,10 @@ class OrdersController extends Controller
         }
 
         if($request->filled('search')){
-            $query->where('title', 'like', '%'.$request->get('search').'%');
+            $query->where(function($q) use($request){
+                $q->where('id', $request->get('search'))
+                    ->orWhere('title', 'like', '%'.$request->get('search').'%');
+            });
         }
 
         return $this->json([
@@ -80,6 +83,7 @@ class OrdersController extends Controller
         $rules = [
             'title' => 'required',
             'requirements' => 'nullable',
+            'pages' => 'nullable',
             'source' => 'required|in:'.implode(',', $sources),
             'bidder' => 'nullable|in:'.implode(',', $bidders),
             'price' => 'required|numeric|min:1',
