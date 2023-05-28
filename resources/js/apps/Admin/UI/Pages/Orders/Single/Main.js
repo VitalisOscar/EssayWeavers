@@ -121,9 +121,13 @@ export default function Main(){
                 <div className="card content-card has-loader">
 
                     <div className="card-header bg-white d-flex align-items-center">
-                        <h2 className="heading-title font-weight-700 mb-0">
-                            {order.title}
-                        </h2>
+                        <div>
+                            <h2 className="heading-title font-weight-700 mb-2">
+                                {order.title}
+                            </h2>
+
+                            <h4 className={"mb-0"}>Order ID: {order.id}</h4>
+                        </div>
 
                         <div className="ml-auto dropdown">
                             {

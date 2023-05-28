@@ -74,12 +74,6 @@ export default function Main({ order = null, setOrder = null }){
 
     return (
             <div className="col-lg-9 col-lg-6 col-xl-12 mx-auto">
-                {/* FORM */}
-                {/* <div className="mb-3 d-flex align-items-center">
-                    <h2 className="heading-title font-weight-700 mb-0">
-                        {order.title}
-                    </h2>
-                </div> */}
 
                 <div className="card content-card has-loader">
                     {
@@ -93,6 +87,16 @@ export default function Main({ order = null, setOrder = null }){
                         :
                         <div></div>
                     }
+
+                    <div className="card-header bg-white d-flex align-items-center">
+                        <div>
+                            <h2 className="heading-title font-weight-700 mb-2">
+                                {order.title}
+                            </h2>
+
+                            <h4 className={"mb-0"}>Order ID: {order.id}</h4>
+                        </div>
+                    </div>
 
                     {
                         order.status != 'Allocated' ?
