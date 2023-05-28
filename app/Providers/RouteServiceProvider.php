@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Allocation;
+use App\Models\Attachment;
 use App\Models\Bidder;
 use App\Models\Order;
 use App\Models\Source;
+use App\Models\Submission;
 use App\Models\Writer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -96,6 +98,10 @@ class RouteServiceProvider extends ServiceProvider
             }
 
             abort(404);
+        });
+
+        Route::bind('attachment', function($id){
+            return Attachment::where('id', $id)->firstOrFail();
         });
 
     }

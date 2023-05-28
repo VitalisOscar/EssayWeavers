@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class Attachment extends Model
 {
@@ -24,7 +25,9 @@ class Attachment extends Model
 
     // ACCESSORS
     public function getUrlAttribute(){
-        return asset('storage/'.$this->path);
+        return URL::temporarySignedRoute('download_attachment', now()->addHours(1), [
+            'attachment' => $this->id
+        ]);
     }
 
     function getExtensionAttribute(){
