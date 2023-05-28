@@ -17,10 +17,6 @@ class AttachmentsController extends Controller
 
         $path = 'app/public/'.$attachment->path;
 
-        if(!Storage::exists($path)){
-            $path = 'app/'.$attachment->path;
-        }
-
         // If image, return the url
         if($attachment->isImage()){
             return response()->file(storage_path($path));
