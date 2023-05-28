@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin\Writers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Writer;
+use App\Notifications\NewWriterAccountNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class WritersController extends Controller
@@ -37,39 +39,54 @@ class WritersController extends Controller
     }
 
     function add(Request $request){
-        $validator = validator($request->all(), [
-            'name' => 'required',
-            'phone' => 'required|unique:writers',
-            'email' => 'required|email|unique:writers',
-            'password' => 'required',
-        ]);
+        try {
+            DB::beginTransaction();
 
-        if($validator->fails()){
-            return $this->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-                'status' => 'Please fix the highlighted errors'
+            $validator = validator($request->all(), [
+                'name' => 'required',
+                'phone' => 'required|unique:writers',
+                'email' => 'required|email|unique:writers',
+                'password' => 'required',
             ]);
-        }
 
-        $writer = Writer::create([
-            'name' => $request->post('name'),
-            'email' => $request->post('email'),
-            'phone' => $request->post('phone'),
-            'password' => Hash::make($request->post('password')),
-            'status' => Writer::STATUS_ACTIVE
-        ]);
+            if ($validator->fails()) {
+                return $this->json([
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'status' => 'Please fix the highlighted errors'
+                ]);
+            }
 
-        if($writer->id){
-            return $this->json([
-                'success' => true,
-                'status' => 'Writer account created successfully'
+            $writer = Writer::create([
+                'name' => $request->post('name'),
+                'email' => $request->post('email'),
+                'phone' => $request->post('phone'),
+                'password' => Hash::make($request->post('password')),
+                'status' => Writer::STATUS_ACTIVE
             ]);
+
+            $writer->notify(new NewWriterAccountNotification(
+                    $writer,
+                    $request->post('password'))
+            );
+
+            if ($writer->id) {
+                DB::commit();
+
+                return $this->json([
+                    'success' => true,
+                    'status' => 'Writer account created successfully'
+                ]);
+            }
+
+            DB::rollBack();
+        }catch(\Exception $e){
+            DB::rollBack();
         }
 
         return $this->json([
             'success' => false,
-            'status' => 'Something went wrong. Please retry'
+            'status' => 'Something went wrong. Please retry: '.$e->getMessage()
         ]);
     }
 
