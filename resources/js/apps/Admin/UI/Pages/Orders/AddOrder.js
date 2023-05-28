@@ -267,7 +267,7 @@ export default function AddOrder(){
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label><strong>Bidder</strong></label>
-                                        <select className="form-control" value={data.bidder} onChange={(e) => setBidder(e.target.value)} required>
+                                        <select className="form-control" value={data.bidder} onChange={(e) => setBidder(e.target.value)}>
                                             <option value="">Select a value</option>
                                             {
                                                 bidders.map(opt =>
@@ -286,7 +286,7 @@ export default function AddOrder(){
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label><strong>Bidder Commission</strong></label>
-                                        <input className="form-control" type="number" value={data.bidder_commission} onInput={(e) => setBidderCommission(e.target.value)} placeholder="" required />
+                                        <input className="form-control" type="number" value={data.bidder_commission} onInput={(e) => setBidderCommission(e.target.value)} placeholder="" />
                                         {
                                             result.errors != undefined && result.errors.bidder_commission != undefined ?
                                                 <span className="text-danger">{result.errors.bidder_commission}</span>
