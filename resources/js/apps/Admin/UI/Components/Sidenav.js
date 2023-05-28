@@ -73,6 +73,23 @@ export default function Sidenav({ open, setOpen }) {
             ]
         },
 
+        {
+            name: "BIDDERS",
+            matches: 'bidders',
+            links: [
+                {
+                    to: AdminRoutes.LIST_BIDDERS,
+                    text: 'Manage Bidders',
+                    icon: 'fas fa-users'
+                },
+                {
+                    to: AdminRoutes.ADD_BIDDER,
+                    text: 'Add Bidder',
+                    icon: 'fas fa-user-plus'
+                },
+            ]
+        },
+
     ]
 
     return (

@@ -7,6 +7,7 @@ use App\Events\OrderAllocatedEvent;
 use App\Http\Controllers\Admin\Writers\WritersDataController;
 use App\Http\Controllers\Controller;
 use App\Models\Allocation;
+use App\Models\BidderPayment;
 use App\Models\Order;
 use App\Models\Payout;
 use App\Models\Source;
@@ -20,7 +21,7 @@ class OrdersController extends Controller
 {
     function index(Request $request){
         $query = Order::latest()->with([
-            'source', 'logs', 'attachments', 'allocations.writer',
+            'source', 'bidder', 'bidder_payment', 'logs', 'attachments', 'allocations.writer',
             'assignments.writer', 'assignments.payments',
             'allocations' => function($q){
                 $q->latest();
@@ -72,6 +73,7 @@ class OrdersController extends Controller
         $request->request->add(['raw' => 1]);
 
         $sources = app(OrdersDataController::class)->sources($request)->pluck('id')->toArray();
+        $bidders = app(OrdersDataController::class)->bidders($request)->pluck('id')->toArray();
         $writers = !$allocating ? [] :
             app(WritersDataController::class)->listWriters($request)->pluck('id')->toArray();
 
@@ -79,6 +81,7 @@ class OrdersController extends Controller
             'title' => 'required',
             'requirements' => 'nullable',
             'source' => 'required|in:'.implode(',', $sources),
+            'bidder' => 'nullable|in:'.implode(',', $bidders),
             'price' => 'required|numeric|min:1',
             'deadline' => 'required|date|date_format:Y-m-d H:i',
             'attachments' => 'nullable|array',
@@ -86,6 +89,7 @@ class OrdersController extends Controller
             'writer' => 'in:'.implode(',', $writers),
             'writer_deadline' => 'required|date|date_format:Y-m-d H:i',
             'writer_price' => 'required|numeric|min:1',
+            'bidder_commission' => 'nullable|numeric|min:1',
         ];
 
         if(!$allocating){
@@ -121,11 +125,21 @@ class OrdersController extends Controller
             $order = Order::create([
                 'title' => $request->post('title'),
                 'source_id' => $request->post('source'),
+                'bidder_id' => $request->post('bidder'),
                 'requirements' => $request->post('requirements', 'Attached'),
                 'price' => $request->post('price'),
                 'deadline' => $request->post('deadline'),
                 'status' => $allocating ? Order::STATUS_ALLOCATED : Order::STATUS_NEW
             ]);
+
+            // Check if the bidder commission has been set
+            if($request->filled(['bidder', 'bidder_commission'])){
+                $order->bidder_payment()->create([
+                    'bidder_id' => $request->post('bidder'),
+                    'amount' => $request->post('bidder_commission'),
+                    'status' => BidderPayment::STATUS_PENDING
+                ]);
+            }
 
             // Save attachments
             if($request->hasFile('attachments')){
@@ -167,7 +181,7 @@ class OrdersController extends Controller
 
         return $this->json([
             'success' => false,
-            'status' => 'Something went wrong. Please retry'
+            'status' => 'Something went wrong. Please retry'.$e->getMessage()
         ]);
     }
 }

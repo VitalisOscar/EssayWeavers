@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Orders;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bidder;
 use App\Models\Source;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,16 @@ class OrdersDataController extends Controller
         }
 
         $data = $query->get();
+
+        if($request->get('raw')){
+            return $data;
+        }
+
+        return $this->json($data);
+    }
+
+    function bidders(Request $request){
+        $data = Bidder::all();
 
         if($request->get('raw')){
             return $data;

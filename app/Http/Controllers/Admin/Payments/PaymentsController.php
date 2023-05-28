@@ -14,13 +14,18 @@ class PaymentsController extends Controller
 
         // Filters
         if($request->filled('search')){
-            $query->whereHas('recepient', function($recepient) use($request){
-                $recepient->where(function($q) use($request){
-                    $q->where('name', 'like', '%'.$request->get('search').'%')
-                        ->orWhere('phone', 'like', '%'.$request->get('search').'%')
-                        ->orWhere('email', 'like', '%'.$request->get('search').'%');
-                });
-            });
+//            $query->whereHas('recepient', function($recepient) use($request){
+//                $recepient->where(function($q) use($request){
+//                    $q->where('name', 'like', '%'.$request->get('search').'%')
+//                        ->orWhere(function($q1) use($request){
+//                            $q1->where('recepient_type', Writer::MODEL_NAME)
+//                                ->orWhere(function($q3) use($request){
+//                                    $q3->orWhere('phone', 'like', '%'.$request->get('search').'%')
+//                                        ->orWhere('email', 'like', '%'.$request->get('search').'%');
+//                                });
+//                        });
+//                });
+//            });
         }
 
         return $this->json($query->paginate($request->get('limit', 15)));

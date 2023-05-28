@@ -9,6 +9,7 @@ import FileHandler from "../../../../Shared/Components/FileHandler";
 import { format } from "date-fns";
 import TextEditor from "../../../../Shared/Components/TextEditor";
 import { AdminContext } from "../../../Context/AdminContext";
+import {useBidders} from "../../../Hooks/Bidders";
 
 export default function AddOrder(){
     const {adminData, setAdminData} = useContext(AdminContext)
@@ -25,12 +26,14 @@ export default function AddOrder(){
         errors: {}
     })
     const [posting, setPosting] = useState(false)
-    const [data, setData] = useState(resetData())
+    let freshData = resetData()
+    const [data, setData] = useState({...freshData})
     const [attachedFiles, setAttachedFiles] = useState([])
     const [isAllocating, setIsAllocating] = useState(false)
 
     const writers = useWriters()
     const sources = useSources()
+    const bidders = useBidders()
 
     let selectedSourceName = ' the selected source'
     if(data.source != ''){
@@ -46,6 +49,13 @@ export default function AddOrder(){
         }
     }
 
+    let selectedBidderName = ' the selected bidder'
+    if(data.bidder != ''){
+        if(bidders.find(bidder => bidder.id == data.bidder) != undefined){
+            selectedBidderName = bidders.find(bidder => bidder.id == data.bidder).name.split(' ')[0]
+        }
+    }
+
     function resetData(){
         return {
             title: '',
@@ -53,6 +63,9 @@ export default function AddOrder(){
             deadline: '',
             price: '',
             source: '',
+            bidder: '',
+            bidder_commission: '',
+            bidder_commission_type: 'calculated',
             writer: '',
             writer_price: '',
             writer_deadline: ''
@@ -62,6 +75,46 @@ export default function AddOrder(){
     function parseDate(date){
         date = format(date, 'yyyy-MM-dd HH:ii')
         return date
+    }
+
+    function setBidderCommission(val){
+        data.bidder_commission = val
+
+        // We fix the commission, i.e will not be calculated based on rate
+        data.bidder_commission_type = 'fixed'
+
+        setData({...data})
+    }
+
+    function setOrderPrice(val){
+        data.price = val
+
+        // If bidder is selected and the commission needs to be calculated, we adjust it
+        if(data.bidder != '' && data.bidder_commission_type == 'calculated'){
+            calculateBidderCommission()
+        }
+
+        setData({...data})
+    }
+
+    function setBidder(val){
+        data.bidder = val
+
+        // Since a new bidder was selected, the commission
+        // will be calculated afresh based on the rate of the bidder
+        data.bidder_commission_type = 'calculated'
+
+        calculateBidderCommission()
+        setData({...data})
+    }
+
+    function calculateBidderCommission(){
+        if(data.bidder != '') {
+            let bidder = bidders.find(b => b.id == data.bidder)
+            data.bidder_commission = Math.round(0.01 * bidder.commission_rate * data.price)
+        }else{
+            data.bidder_commission = ''
+        }
     }
 
     function onSubmit(event){
@@ -100,7 +153,8 @@ export default function AddOrder(){
                     showSuccess(result.status)
 
                     // Reset data
-                    setData({...resetData()})
+                    let data = resetData()
+                    setData({...data})
                     setAttachedFiles([])
                     setIsAllocating(false)
                 }else{
@@ -176,7 +230,7 @@ export default function AddOrder(){
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label><strong>Payment</strong></label>
-                                        <input className="form-control" type="number" value={data.price} onChange={(e) => setData({...data, price: e.target.value})} placeholder="" required />
+                                        <input className="form-control" type="number" value={data.price} onChange={(e) => setOrderPrice(e.target.value)} placeholder="" required />
                                         {
                                             result.errors != undefined && result.errors.price != undefined ?
                                             <span className="text-danger">{result.errors.price}</span>
@@ -206,6 +260,37 @@ export default function AddOrder(){
                                             result.errors != undefined && result.errors.deadline != undefined ?
                                             <span className="text-danger">{result.errors.deadline}</span>
                                             :<span>This is the deadline of submitting the order back to {selectedSourceName}. You can issue your writers different deadlines</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label><strong>Bidder</strong></label>
+                                        <select className="form-control" value={data.bidder} onChange={(e) => setBidder(e.target.value)} required>
+                                            <option value="">Select a value</option>
+                                            {
+                                                bidders.map(opt =>
+                                                    <option value={opt.id} key={opt.id}>{opt.name}</option>
+                                                )
+                                            }
+                                        </select>
+                                        {
+                                            result.errors != undefined && result.errors.bidder != undefined ?
+                                                <span className="text-danger">{result.errors.bidder}</span>
+                                                :<span>Helps in tracking who placed the bid for the order on {selectedSourceName}</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label><strong>Bidder Commission</strong></label>
+                                        <input className="form-control" type="number" value={data.bidder_commission} onInput={(e) => setBidderCommission(e.target.value)} placeholder="" required />
+                                        {
+                                            result.errors != undefined && result.errors.bidder_commission != undefined ?
+                                                <span className="text-danger">{result.errors.bidder_commission}</span>
+                                                :<span>This is the commission amount you will pay {selectedBidderName} for placing a bid for this order</span>
                                         }
                                     </div>
                                 </div>

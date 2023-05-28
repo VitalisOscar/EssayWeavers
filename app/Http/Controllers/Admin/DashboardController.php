@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BidderPayment;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\Payout;
@@ -11,7 +12,8 @@ use App\Models\Writer;
 class DashboardController extends Controller
 {
     function getDashboardData(){
-        $clearedPayments = OrderPayment::cleared()->sum('amount');
+        $clearedPayments = OrderPayment::cleared()->sum('amount') +
+            BidderPayment::cleared()->sum('amount');
         $earnedPayments = Order::settled()->sum('price');
 
         $netProfit = $earnedPayments - $clearedPayments;

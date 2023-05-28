@@ -15,6 +15,7 @@ use App\Events\WriterDeadlineUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Allocation;
 use App\Models\AssignedOrder;
+use App\Models\BidderPayment;
 use App\Models\Issue;
 use App\Models\Order;
 use App\Models\OrderPayment;
@@ -262,6 +263,11 @@ class SingleOrderController extends Controller
                     'status' => OrderPayment::STATUS_CLEARED
                 ]);
 
+            // If the order had a bidder, mark the commission allocation for this order as cleared
+            $order->bidder_payment()->update([
+                'status' => BidderPayment::STATUS_CLEARED
+            ]);
+
             // All Done
             OrderSettledEvent::dispatch($order);
 
@@ -335,6 +341,11 @@ class SingleOrderController extends Controller
             // Create a cancellation record
             $order->cancellations()->create([
                 'reason' => $request->post('reason')
+            ]);
+
+            // If the order had a bidder, mark the commission allocation for this order as cancelled
+            $order->bidder_payment()->update([
+                'status' => BidderPayment::STATUS_CANCELLED
             ]);
 
             // Mark order as cancelled

@@ -22,6 +22,11 @@ const AdminRoutes = {
     ADD_SOURCE: '/sources/add',
     SINGLE_SOURCE: '/sources/view/:source_id',
 
+    // Bidders
+    LIST_BIDDERS: '/bidders/list',
+    ADD_BIDDER: '/bidders/add',
+    SINGLE_BIDDER: '/bidders/view/:bidder_id',
+
 }
 
 export { AdminRoutes };

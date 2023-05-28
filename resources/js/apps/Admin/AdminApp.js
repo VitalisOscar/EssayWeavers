@@ -18,6 +18,9 @@ import SingleSource from './UI/Pages/Sources/SingleSource';
 import AddWriter from './UI/Pages/Writers/AddWriter';
 import ListWriters from './UI/Pages/Writers/ListWriters';
 import SingleWriter from './UI/Pages/Writers/SingleWriter';
+import SingleBidder from "./UI/Pages/Bidders/SingleBidder";
+import AddBidder from "./UI/Pages/Bidders/AddBidder";
+import ListBidders from "./UI/Pages/Bidders/ListBidders";
 
 function AdminApp() {
     const {adminData} = useContext(AdminContext)
@@ -59,6 +62,11 @@ function AdminApp() {
                             <Route path={AdminRoutes.LIST_SOURCES} element={<ListSources />} />
                             <Route path={AdminRoutes.ADD_SOURCE} element={<AddSource />} />
                             <Route path={AdminRoutes.SINGLE_SOURCE} element={<SingleSource />} />
+
+                            {/* Bidders */}
+                            <Route path={AdminRoutes.LIST_BIDDERS} element={<ListBidders />} />
+                            <Route path={AdminRoutes.ADD_BIDDER} element={<AddBidder />} />
+                            <Route path={AdminRoutes.SINGLE_BIDDER} element={<SingleBidder />} />
 
                             {/* 404 */}
                             {/* <Route path="*" element={<NotFound />} /> */}

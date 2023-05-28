@@ -34,12 +34,19 @@ const AdminApi = {
     GET_SOURCE: BASE + 'sources/single/:source_id',
     UPDATE_SOURCE: BASE + 'sources/single/:source_id/update',
 
+    // Bidders
+    LIST_BIDDERS: BASE + 'bidders/all',
+    ADD_BIDDER: BASE + 'bidders/add',
+    GET_BIDDER: BASE + 'bidders/single/:bidder_id',
+    UPDATE_BIDDER: BASE + 'bidders/single/:bidder_id/update',
+
     // Other
     PAYMENT_RECEPIENT_TYPES: BASE + 'data/payments/recepient_types',
     PAYMENT_RECEPIENTS: BASE + 'data/payments/recepients',
 
     ORDER_SOURCE_TYPES: BASE + 'data/orders/source_types',
     ORDER_SOURCES: BASE + 'data/orders/sources',
+    ORDER_BIDDERS: BASE + 'data/orders/bidders',
     WRITERS: BASE + 'data/writers/all',
 }
 

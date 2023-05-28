@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Bidders\BiddersController;
 use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\Orders\OrdersDataController;
 use App\Http\Controllers\Admin\Orders\SingleOrderController;
@@ -53,6 +54,20 @@ Route::prefix('sources')
 
 });
 
+// Bidders
+Route::prefix('bidders')
+->name('bidders.')
+->group(function(){
+
+    Route::any('add', [BiddersController::class, 'add'])->name('add');
+    Route::any('view/{bidder}', [BiddersController::class, 'add'])->name('single');
+    Route::get('{type?}', [BiddersController::class, 'index'])->name('all');
+
+    Route::get('single/{bidder}', [BiddersController::class, 'single'])->name('single');
+    Route::post('single/{bidder}/update', [BiddersController::class, 'update'])->name('single.update');
+
+});
+
 // Orders
 Route::prefix('orders')
 ->name('orders.')
@@ -100,6 +115,7 @@ Route::prefix('data')
 
         Route::get('sources', [OrdersDataController::class, 'sources'])->name('.sources');
         Route::get('source_types', [OrdersDataController::class, 'sourceTypes'])->name('.source_types');
+        Route::get('bidders', [OrdersDataController::class, 'bidders'])->name('.bidders');
 
     });
 

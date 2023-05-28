@@ -37,6 +37,10 @@ class Order extends Model
         return $this->belongsTo(Source::class);
     }
 
+    function bidder(){
+        return $this->belongsTo(Bidder::class);
+    }
+
     function allocated_writers(){
         return $this->belongsToMany(Writer::class, 'allocations');
     }
@@ -67,6 +71,10 @@ class Order extends Model
 
     function payments(){
         return $this->hasManyThrough(OrderPayment::class, AssignedOrder::class);
+    }
+
+    function bidder_payment(){
+        return $this->hasOne(BidderPayment::class);
     }
 
     function attachments(){
@@ -175,7 +183,7 @@ class Order extends Model
 
     function adminFresh(){
         $this->load([
-            'source', 'logs', 'attachments', 'allocations.writer',
+            'source', 'bidder', 'bidder_payment', 'logs', 'attachments', 'allocations.writer',
             'assignments.writer', 'assignments.payments',
             'allocations' => function($q){
                 $q->latest();
@@ -235,6 +243,9 @@ class Order extends Model
             'writer_deadline_formatted' => $allocation->deadline_formatted ?? null,
             'requirements' => $this->requirements,
             'source' => $this->source->toArray(),
+            'bidder_commission' => $this->bidder_payment ? $this->bidder_payment->amount : 0,
+            'bidder_commission_formatted' => number_format($this->bidder_payment ? $this->bidder_payment->amount : 0),
+            'bidder' => $this->bidder ? $this->bidder->toArray() : [],
             'date' => $this->date_added_formatted,
             'status' => $this->status,
             'attachments' => $this->attachments->map(function($attachment){

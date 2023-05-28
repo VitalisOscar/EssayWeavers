@@ -32,13 +32,25 @@ export default function AddPayout(){
     let selectedRecepientName = 'the selected recepient'
 
     let recepientAccount = {}
+    let recepientAvailable = 0
+    let recepientAvailableDisplay = ''
 
     if(data.recepient_id != ''){
         if(recepients.find(r => r.id == data.recepient_id) != undefined){
             let recepient = recepients.find(r => r.id == data.recepient_id)
 
             selectedRecepientName = recepient.name.split(' ')[0]
-            recepientAccount = recepient.accounts ? recepient.accounts : {}
+
+            if(data.recepient_type == 'Bidder'){
+                recepientAccount = recepient.performance ? recepient.performance : {}
+                recepientAvailable = recepientAccount.total_commission_available
+                recepientAvailableDisplay = recepientAccount.total_commission_available_formatted
+            }else{
+                recepientAccount = recepient.accounts ? recepient.accounts : {}
+                console.log(recepientAccount)
+                recepientAvailable = recepientAccount.available
+                recepientAvailableDisplay = recepientAccount.available_formatted
+            }
         }
     }
 
@@ -110,7 +122,7 @@ export default function AddPayout(){
                         <form onSubmit={onSubmit} autoComplete="off">
                             <div className="form-group">
                                 <label><strong>Recepient Type</strong></label>
-                                <select className="form-control" value={data.recepient_type} onChange={(e) => setData({...data, recepient_type: e.target.value})} required>
+                                <select className="form-control" value={data.recepient_type} onChange={(e) => setData({...data, recepient_type: e.target.value, recepient_id: ''})} required>
                                     <option value="">Select a value</option>
                                     {
                                         recepientTypes.map(type =>
@@ -150,13 +162,13 @@ export default function AddPayout(){
                                 {
                                     data.recepient_id != '' ?
                                     (
-                                        recepientAccount.available < parseInt(data.amount) ?
-                                        <span className="text-danger">(Available: {recepientAccount.available_formatted})</span>
+                                        recepientAvailable < parseInt(data.amount) ?
+                                        <span className="text-danger">(Available: {recepientAvailableDisplay})</span>
                                         :
                                         (
-                                            data.amount != '' && recepientAccount.available >= parseInt(data.amount) ?
-                                            <span className="text-success">(Available: {recepientAccount.available_formatted})</span>
-                                            :<span className="text-dark">(Available: {recepientAccount.available_formatted})</span>
+                                            data.amount != '' && recepientAvailable >= parseInt(data.amount) ?
+                                            <span className="text-success">(Available: {recepientAvailableDisplay})</span>
+                                            :<span className="text-dark">(Available: {recepientAvailableDisplay})</span>
                                         )
                                     ) : <></>
 

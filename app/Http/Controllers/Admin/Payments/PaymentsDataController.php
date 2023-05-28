@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bidder;
 use App\Models\Writer;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class PaymentsDataController extends Controller
 {
     function recepientTypes(Request $request){
         $data = [
-            'Writer'
+            'Writer', 'Bidder'
         ];
 
         if($request->get('raw')){
@@ -26,6 +27,13 @@ class PaymentsDataController extends Controller
         if(strtolower($request->get('recepient_type')) == 'writer'){
             $recepients = Writer::with(['earnings', 'payouts'])
                 ->get()
+                ->map(function($writer){
+                    return $writer->toArray();
+                });
+        }
+
+        if(strtolower($request->get('recepient_type')) == 'bidder'){
+            $recepients = Bidder::all()
                 ->map(function($writer){
                     return $writer->toArray();
                 });

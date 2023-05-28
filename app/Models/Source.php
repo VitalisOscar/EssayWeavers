@@ -47,7 +47,7 @@ class Source extends Model
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
-            'date' => $this->date_Added_formatted,
+            'date' => $this->date_added_formatted,
         ];
     }
 

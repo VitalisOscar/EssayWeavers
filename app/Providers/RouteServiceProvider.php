@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Allocation;
+use App\Models\Bidder;
 use App\Models\Order;
 use App\Models\Source;
 use App\Models\Writer;
@@ -84,6 +85,14 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('source', function($id){
             if(preg_match('/\/admin\//', URL::current()) && auth('admin')->check()){
                 return Source::find($id);
+            }
+
+            abort(404);
+        });
+
+        Route::bind('bidder', function($id){
+            if(preg_match('/\/admin\//', URL::current()) && auth('admin')->check()){
+                return Bidder::find($id);
             }
 
             abort(404);
