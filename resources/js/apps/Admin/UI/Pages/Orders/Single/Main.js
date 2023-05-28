@@ -24,7 +24,7 @@ export default function Main(){
     const {adminData, setAdminData} = useContext(AdminContext)
 
     const profit = order.current_writer ?
-        useOrderMetricsProfit(order.price_raw, order.writer_price_raw) : 0
+        useOrderMetricsProfit(order.price_raw, (order.writer_price_raw + order.bidder_commission)) : 0
     const reviewTime = order.current_writer ?
         useOrderMetricsTimeToDeadline(order.deadline_raw, order.writer_deadline_raw) : '0'
 
@@ -320,6 +320,17 @@ export default function Main(){
                                     </> : <></>
                                 }
 
+                                {
+                                    order.bidder && order.bidder.name &&
+                                    <div className="mb-4 order-spec">
+                                        <h4 className="heading font-weight-700">
+                                            <i className="fa fa-user-o mr-2 icon colored-icon icon-sm bg-dark"></i>
+                                            Bidder
+                                        </h4>
+                                        <div className="spec">{order.bidder.name}</div>
+                                    </div>
+                                }
+
                                 <div className="mb-4 order-spec">
                                     <h4 className="heading font-weight-700">
                                         <i className="ni ni-world-2 mr-2 icon colored-icon icon-sm bg-dark"></i>
@@ -338,6 +349,17 @@ export default function Main(){
                                     </h4>
                                     <div className="spec">{order.price_formatted}</div>
                                 </div>
+
+                                {
+                                    order.bidder && order.bidder.name &&
+                                    <div className="mb-4 order-spec">
+                                        <h4 className="heading font-weight-700">
+                                            <i className="fa fa-coins mr-2 icon colored-icon icon-sm bg-dark"></i>
+                                            Bidder Commission
+                                        </h4>
+                                        <div className="spec">{order.bidder_commission_formatted}</div>
+                                    </div>
+                                }
 
                                 {
                                     order.current_writer ?
