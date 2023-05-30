@@ -4,6 +4,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 
+if (env('APP_ENV') === 'production') {
+    \Illuminate\Support\Facades\URL::forceScheme('https');
+}
+
+
 Route::get('/', function () {
     return view('home');
 });
