@@ -11,7 +11,7 @@ if (env('APP_ENV') === 'production') {
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('admin/{path?}', function () {
     return view('admin.app');

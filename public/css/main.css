@@ -1,5 +1,5 @@
 @import 'bootstrap/bootstrap.min.css';
-@import 'argon.min.css';
+@import 'argon.css';
 @import '../vendor/nucleo/css/nucleo.css';
 @import '../vendor/@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -7,6 +7,44 @@
 
 body{
   background: #f4f6fb;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-rounded{
+    border-radius: 50px;
+}
+
+.app-logo{
+    height: 60px !important;
+}
+
+.top-navbar{
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #fff;
+}
+
+.top-navbar .nav-link{
+    color: #172b4d !important;
+    transition: .3s all !important;
+    font-weight: 600;
+    border-radius: 0;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    font-size: 1em;
+    border: 2px solid #0000;
+}
+
+.top-navbar .nav-link:hover, .top-navbar .nav-link:focus, .top-navbar .nav-link:active{
+    color: #2dce89 !important;
+}
+
+.top-navbar .nav-link.active{
+    color: #2dce89 !important;
+    border-bottom-color: #2dce89;
 }
 
 .dropdown .dropdown-link{

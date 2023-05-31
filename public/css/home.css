@@ -1,0 +1,154 @@
+.hero{
+    background: #fff;
+    padding: 50px 0;
+}
+
+.hero .foreground{
+    padding: 150px 0 1rem;
+}
+
+.hero .hero-title, .hero .hero-title *{
+    font-size: 35px;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hero .hero-subtitle{
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.4;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hero .hero-img{
+    border-radius: 50%;
+}
+
+/* WHY US */
+.why-us{
+    background: #fff
+}
+
+.why-us .why-us-context-img{
+    height:700px !important;
+    position: relative;
+    left: -150px;
+    bottom: -120px;
+}
+
+.why-us .why-us-item{
+    background: #fff;
+    height: 100% !important;
+    position: relative;
+    padding: 1.25rem;
+    border-radius: .5rem;
+    border: 1px solid #eee;
+    /*box-shadow: 0 0 7px 0 rgba(0, 0 , 0, .2);*/
+}
+
+.why-us .why-us-item .text{
+    font-weight: 400;
+    font-size: 1em;
+    color: #333;
+}
+
+.why-us .why-us-item .action{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.why-us .why-us-img{
+    height: 70px;
+}
+
+/* CALCULATOR */
+.calculator-section{
+    background-color: #fff;
+}
+
+.price-calculator{
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0 , 0, .4);
+}
+
+/* NUMBERS */
+.numbers{
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem 0;
+}
+
+.numbers .number-item{
+    padding: 1.5rem;
+    border-radius: 20px;
+    background: #fff;
+    margin-bottom: 1.5rem;
+}
+
+@media(min-width: 768px){
+    .numbers .number-item{
+        margin-bottom: 0;
+    }
+}
+
+.numbers .number-item .number{
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #2dce89;
+}
+
+.numbers .number-item .text{
+    font-size: 1em;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+}
+
+/* HOW IT WORKS */
+.how-it-works{
+    background: #fff;
+    padding: 1.5rem 0;
+}
+
+.how-it-works .how-it-works-item{
+    padding: 1.5rem 1.5rem 60px;
+    border-radius: 20px;
+    background: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.how-it-works .how-it-works-item .number{
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #2dce89;
+}
+
+.how-it-works .how-it-works-item .text{
+    font-size: 1.1em;
+    font-weight: 400;
+    color: #333;
+}
+
+.how-it-works .how-it-works-item .action{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.how-it-works .how-it-works-img{
+    height: 70px;
+}
+
+/* Call for action */
+.footer{
+    padding: 1.5rem 0 1rem;
+    background: #fafafa;
+}
