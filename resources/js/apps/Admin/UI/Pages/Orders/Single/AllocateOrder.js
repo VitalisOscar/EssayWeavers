@@ -69,7 +69,6 @@ export default function AllocateOrder(){
             let writer = writers.find(w => w.id == data.writer)
             if(writer && writer.cpp){
                 data.writer_price = Math.round(writer.cpp * order.pages)
-                console.log(data.writer_price)
                 return
             }
         }

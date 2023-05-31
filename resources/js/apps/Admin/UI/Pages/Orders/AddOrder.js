@@ -68,6 +68,7 @@ export default function AddOrder(){
             bidder_commission_type: 'calculated',
             writer: '',
             writer_price: '',
+            writer_price_type: 'calculated',
             writer_deadline: '',
             pages: ''
         }
@@ -116,6 +117,49 @@ export default function AddOrder(){
         }else{
             data.bidder_commission = ''
         }
+    }
+
+    function setWriterPrice(val){
+        data.writer_price = val
+
+        // We fix the price, i.e will not be calculated based on cpp
+        data.writer_price_type = 'fixed'
+
+        setData({...data})
+    }
+
+    function setWriter(val){
+        data.writer = val
+
+        // If price needs to be calculated from cpp, we adjust the price
+        if(data.writer != '' && data.writer_price_type == 'calculated'){
+            calculateWriterPrice()
+        }
+
+        setData({...data})
+    }
+
+    function setPages(val){
+        data.pages = val
+
+        // If price needs to be calculated from cpp, we adjust the price
+        if(data.writer != '' && data.writer_price_type == 'calculated'){
+            calculateWriterPrice()
+        }
+
+        setData({...data})
+    }
+
+    function calculateWriterPrice(){
+        if(data.writer != '' && data.pages != '') {
+            let writer = writers.find(w => w.id == data.writer)
+            if(writer && writer.cpp){
+                data.writer_price = Math.round(writer.cpp * data.pages)
+                return
+            }
+        }
+
+        data.writer_price = ''
     }
 
     function onSubmit(event){
@@ -299,7 +343,7 @@ export default function AddOrder(){
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label><strong>Pages Required</strong></label>
-                                        <input className="form-control" type="number" value={data.pages} onChange={(e) => setData({...data, pages: e.target.value})} placeholder="" />
+                                        <input className="form-control" type="number" value={data.pages} onChange={(e) => setPages(e.target.value)} placeholder="" />
                                         {
                                             result.errors != undefined && result.errors.pages != undefined ?
                                                 <span className="text-danger">{result.errors.pages}</span>
@@ -372,7 +416,7 @@ export default function AddOrder(){
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label><strong>Allocated Writer</strong></label>
-                                                <select className="form-control" value={data.writer} onChange={(e) => setData({...data, writer: e.target.value})} required>
+                                                <select className="form-control" value={data.writer} onChange={(e) => setWriter(e.target.value)} required>
                                                     <option value="">Select a value</option>
                                                     {
                                                         writers.map(opt =>
@@ -391,7 +435,7 @@ export default function AddOrder(){
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label><strong>Writer's Payment</strong></label>
-                                                <input className="form-control" type="number" value={data.writer_price} onChange={(e) => setData({...data, writer_price: e.target.value})} placeholder="" required />
+                                                <input className="form-control" type="number" value={data.writer_price} onChange={(e) => setWriterPrice(e.target.value)} placeholder="" required />
                                                 {
                                                     result.errors != undefined && result.errors.writer_price != undefined ?
                                                     <span className="text-danger">{result.errors.writer_price}</span>

@@ -8,7 +8,7 @@
     <title>Admin - {{ config('app.name') }}</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css').'?v=1' }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css').'?v=2' }}">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
     <script src="{{ asset('vendor/popper/popper.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="https://kit.fontawesome.com/ce4529ea37.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js').'?v=2' }}"></script>
 
 </body>
 </html>
