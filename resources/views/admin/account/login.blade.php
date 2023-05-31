@@ -46,7 +46,7 @@
                 <div class="card-body">
 
                     <div class="py-4 mb-3 text-center">
-                        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="d-block mb-3 mx-auto" style="height: 70px" />
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="d-block mb-5 mx-auto" style="height: 70px" />
                         <h4 class="font-weight-600">Admin Login</h4>
                         <span class="d-inline-block px-4 rounded bg-primary" style="height: 3px"></span>
                     </div>

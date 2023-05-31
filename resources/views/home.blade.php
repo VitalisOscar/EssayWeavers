@@ -17,11 +17,7 @@
     <body>
 
         <nav class="top-navbar navbar navbar-expand-md navbar-light">
-            <div class="container-fluid">
-                <button class="navbar-toggler menu-button text-default mr-3" onclick="$('.sidebar').toggleClass('open')">
-                    <span class="fa fa-bars"></span>
-                </button>
-
+            <div class="container">
                 <a class="navbar-brand mr-auto" href="{{ url('/') }}">
                     <img class="app-logo" src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" >
                 </a>

@@ -1,6 +1,6 @@
 .hero{
     background: #fff;
-    padding: 50px 0;
+    padding: 0;
 }
 
 .hero .foreground{
@@ -35,8 +35,13 @@
 .why-us .why-us-context-img{
     height:700px !important;
     position: relative;
-    left: -150px;
     bottom: -120px;
+}
+
+@media (min-width: 768px) {
+    .why-us .why-us-context-img{
+        left: -150px;
+    }
 }
 
 .why-us .why-us-item{
