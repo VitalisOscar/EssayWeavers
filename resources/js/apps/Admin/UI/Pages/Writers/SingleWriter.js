@@ -147,6 +147,16 @@ export default function SingleWriter(){
                         </div>
 
                         <div className="form-group">
+                            <label>Default CPP</label>
+                            <input className="form-control" type="number" value={data.cpp} onChange={(e) => setData({...data, cpp: e.target.value})} placeholder="e.g 350" autoComplete="off" />
+                            {
+                                result.errors != undefined && result.errors.cpp != undefined ?
+                                    <span className="text-danger">{result.errors.cpp}</span>
+                                    :<span></span>
+                            }
+                        </div>
+
+                        <div className="form-group">
                             <label>Account Status</label>
                             <select className="form-control" value={data.status} onChange={(e) => setData({...data, status: e.target.value})} required>
                                 <option value="">Select a value</option>

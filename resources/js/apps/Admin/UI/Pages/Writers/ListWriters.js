@@ -98,6 +98,7 @@ export default function ListWriters(){
                                 <td><strong>Phone</strong></td>
                                 <td><strong>Email</strong></td>
                                 <td><strong>Status</strong></td>
+                                <td><strong>CPP</strong></td>
                                 <td><strong>Available Bal</strong></td>
                                 <td><strong>Date Added</strong></td>
                                 <td></td>
@@ -108,7 +109,7 @@ export default function ListWriters(){
                                 ((result.data ?? []).length == 0) ?
 
                                 <tr>
-                                    <td colSpan="8">
+                                    <td colSpan="9">
                                         No data in table
                                     </td>
                                 </tr>
@@ -143,6 +144,10 @@ export default function ListWriters(){
                                                 <span className={'badge badge-' + (item.status == 'Active' ? 'success':'danger')}>
                                                 {item.status}
                                                 </span>
+                                            </td>
+
+                                            <td>
+                                                {item.cpp_formatted}
                                             </td>
 
                                             <td>

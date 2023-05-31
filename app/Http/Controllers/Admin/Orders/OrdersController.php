@@ -131,6 +131,7 @@ class OrdersController extends Controller
                 'source_id' => $request->post('source'),
                 'bidder_id' => $request->post('bidder'),
                 'requirements' => $request->post('requirements', 'Attached'),
+                'pages' => $request->post('pages'),
                 'price' => $request->post('price'),
                 'deadline' => $request->post('deadline'),
                 'status' => $allocating ? Order::STATUS_ALLOCATED : Order::STATUS_NEW

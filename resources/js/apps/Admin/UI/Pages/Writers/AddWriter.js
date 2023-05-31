@@ -54,7 +54,8 @@ export default function AddWriter(){
                         name: '',
                         email: '',
                         phone: '',
-                        password: ''
+                        password: '',
+                        cpp: '',
                     })
                 }else{
                     showError(result.status)
@@ -129,6 +130,16 @@ export default function AddWriter(){
                                     result.errors != undefined && result.errors.password != undefined ?
                                     <span className="text-danger">{result.errors.password}</span>
                                     :<span></span>
+                                }
+                            </div>
+
+                            <div className="form-group">
+                                <label>Default CPP</label>
+                                <input className="form-control" type="number" value={data.cpp} onChange={(e) => setData({...data, cpp: e.target.value})} placeholder="e.g 350" />
+                                {
+                                    result.errors != undefined && result.errors.cpp != undefined ?
+                                        <span className="text-danger">{result.errors.cpp}</span>
+                                        :<span></span>
                                 }
                             </div>
 

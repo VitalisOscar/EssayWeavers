@@ -117,6 +117,8 @@ class Writer extends Authenticatable
             'phone' => $this->phone,
             'status' => $this->status,
             'date' => $this->date_added_formatted,
+            'cpp' => $this->cpp,
+            'cpp_formatted' => 'KES '.number_format($this->cpp),
             'accounts' => [
                 'pending' => $pendingEarnings,
                 'pending_formatted' => 'KES '.number_format($pendingEarnings),

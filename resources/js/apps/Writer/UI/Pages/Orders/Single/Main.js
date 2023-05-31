@@ -146,6 +146,11 @@ export default function Main({ order = null, setOrder = null }){
 
                         <h2 className="heading font-weight-700 mb-4 text-primary">Order Requirements</h2>
 
+                        {order.pages &&
+                            <div>
+                                <strong>Pages Required: </strong>{order.pages}
+                            </div>
+                        }
                         <div className="mb-4" dangerouslySetInnerHTML={{__html: order.requirements}}></div>
 
                         <div className="attachments">

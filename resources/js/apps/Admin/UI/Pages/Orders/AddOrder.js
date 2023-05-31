@@ -68,7 +68,8 @@ export default function AddOrder(){
             bidder_commission_type: 'calculated',
             writer: '',
             writer_price: '',
-            writer_deadline: ''
+            writer_deadline: '',
+            pages: ''
         }
     }
 
@@ -295,9 +296,21 @@ export default function AddOrder(){
                                     </div>
                                 </div>
 
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label><strong>Pages Required</strong></label>
+                                        <input className="form-control" type="number" value={data.pages} onChange={(e) => setData({...data, pages: e.target.value})} placeholder="" />
+                                        {
+                                            result.errors != undefined && result.errors.pages != undefined ?
+                                                <span className="text-danger">{result.errors.pages}</span>
+                                                :<span></span>
+                                        }
+                                    </div>
+                                </div>
+
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <label><strong>Requirements</strong></label>
+                                        <label><strong>More Requirements</strong></label>
                                         <TextEditor
                                             text={data.requirements}
                                             onChange={(text) => {

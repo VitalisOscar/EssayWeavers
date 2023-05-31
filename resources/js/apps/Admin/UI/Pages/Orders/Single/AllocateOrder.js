@@ -33,6 +33,7 @@ export default function AllocateOrder(){
         return {
             writer: order.current_writer ? order.current_writer.id : '',
             writer_price: order.current_writer ? order.writer_price_raw : '',
+            writer_price_type: 'calculated',
             writer_deadline: order.current_writer ?
                 parseDate(new Date(order.writer_deadline_raw)) : ''
         }
@@ -41,6 +42,39 @@ export default function AllocateOrder(){
     function parseDate(date){
         date = format(date, 'yyyy-MM-dd HH:ii')
         return date
+    }
+
+    function setWriterPrice(val){
+        data.writer_price = val
+
+        // We fix the price, i.e will not be calculated based on cpp
+        data.writer_price_type = 'fixed'
+
+        setData({...data})
+    }
+
+    function setWriter(val){
+        data.writer = val
+
+        // If price needs to be calculated from cpp, we adjust the price
+        if(data.writer != '' && data.writer_price_type == 'calculated'){
+            calculateWriterPrice()
+        }
+
+        setData({...data})
+    }
+
+    function calculateWriterPrice(){
+        if(data.writer != '' && order.pages) {
+            let writer = writers.find(w => w.id == data.writer)
+            if(writer && writer.cpp){
+                data.writer_price = Math.round(writer.cpp * order.pages)
+                console.log(data.writer_price)
+                return
+            }
+        }
+
+        data.writer_price = ''
     }
 
     function onSubmit(event){
@@ -110,7 +144,7 @@ export default function AllocateOrder(){
                                 <div className="col-md-12 col-xl-4">
                                     <div className="form-group mb-xl-0">
                                         <label><strong>Writer</strong></label>
-                                        <select className="form-control" value={data.writer} onChange={(e) => setData({...data, writer: e.target.value})} required>
+                                        <select className="form-control" value={data.writer} onChange={(e) => setWriter(e.target.value)} required>
                                             <option value="">Select a value</option>
                                             {
                                                 writers.map(opt =>
@@ -129,7 +163,7 @@ export default function AllocateOrder(){
                                 <div className="col-md-12 col-xl-4">
                                     <div className="form-group mb-xl-0">
                                         <label><strong>Writer's Payment</strong></label>
-                                        <input placeholder={order.price_raw - order.bidder_commission} className="form-control" type="number" value={data.writer_price} onChange={(e) => setData({...data, writer_price: e.target.value})} required />
+                                        <input placeholder={order.price_raw - order.bidder_commission} className="form-control" type="number" value={data.writer_price} onChange={(e) => setWriterPrice(e.target.value)} required />
                                         {
                                             result.errors != undefined && result.errors.writer_price != undefined ?
                                             <span className="text-danger">{result.errors.writer_price}</span>

@@ -46,6 +46,7 @@ class WritersController extends Controller
                 'name' => 'required',
                 'phone' => 'required|unique:writers',
                 'email' => 'required|email|unique:writers',
+                'cpp' => 'nullable|numeric|min:1',
                 'password' => 'required',
             ]);
 
@@ -61,6 +62,7 @@ class WritersController extends Controller
                 'name' => $request->post('name'),
                 'email' => $request->post('email'),
                 'phone' => $request->post('phone'),
+                'cpp' => $request->post('cpp'),
                 'password' => Hash::make($request->post('password')),
                 'status' => Writer::STATUS_ACTIVE
             ]);
@@ -96,6 +98,7 @@ class WritersController extends Controller
             'phone' => 'required|unique:writers,phone,'.$writer->id,
             'email' => 'required|email|unique:writers,email,'.$writer->id,
             'password' => 'nullable',
+            'cpp' => 'nullable|numeric|min:1',
             'status' => 'required|in:Active,Disabled',
         ]);
 
@@ -113,7 +116,8 @@ class WritersController extends Controller
             'phone' => $request->post('phone'),
             'password' => $request->filled('password') ?
                 Hash::make($request->post('password')) : $writer->password,
-            'status' => $request->post('status')
+            'status' => $request->post('status'),
+            'cpp' => $request->post('cpp'),
         ]);
 
         return $this->json([

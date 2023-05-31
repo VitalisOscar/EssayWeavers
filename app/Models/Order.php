@@ -242,6 +242,7 @@ class Order extends Model
             'writer_deadline_raw' => $allocation->deadline ?? null,
             'writer_deadline_formatted' => $allocation->deadline_formatted ?? null,
             'requirements' => $this->requirements,
+            'pages' => $this->pages,
             'source' => $this->source->toArray(),
             'bidder_commission' => $this->bidder_payment ? $this->bidder_payment->amount : 0,
             'bidder_commission_formatted' => number_format($this->bidder_payment ? $this->bidder_payment->amount : 0),
@@ -277,6 +278,7 @@ class Order extends Model
             'deadline_raw' => $allocation->deadline ?? null,
             'deadline_formatted' => $allocation->deadline_formatted ?? null,
             'requirements' => $this->requirements,
+            'pages' => $this->pages,
             'date' => $this->date_added_formatted,
             'status' => $this->status,
             'attachments' => $this->attachments->map(function($attachment){
