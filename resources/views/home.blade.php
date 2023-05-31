@@ -6,7 +6,8 @@
         <meta name="google-site-verification" content="ZdJ5b2sR2SV3GBeoIC67AASBaLjZBwX84UbZ2p3ayvw" />
 
         <title>EssayWeavers - Professional and quality tutoring services</title>
-        <!-- Fonts -->
+
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
