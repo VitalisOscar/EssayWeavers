@@ -8,8 +8,8 @@
         <title>EssayWeavers - Professional and quality tutoring services</title>
 
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/main.css').'?v=1' }}" rel="stylesheet">
+        <link href="{{ asset('css/home.css').'?v=1' }}" rel="stylesheet">
 
         <style>
         </style>
