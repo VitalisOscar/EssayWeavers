@@ -120,6 +120,18 @@ export default function Main(){
                 {/* FORM */}
                 <div className="card content-card has-loader">
 
+                    {
+                        posting ?
+                            <div className="loader py-3 d-flex align-items-center justify-content-center">
+                                <div className="d-flex align-items-center">
+                                    <div className="spinner-border text-primary mr-3"></div>
+                                    <div>Please wait...</div>
+                                </div>
+                            </div>
+                            :
+                            <div></div>
+                    }
+
                     <div className="card-header bg-white d-flex align-items-center">
                         <div>
                             <h2 className="heading-title font-weight-700 mb-2">
