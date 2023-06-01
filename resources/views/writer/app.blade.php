@@ -14,7 +14,7 @@
 
     <div id="writer_app"></div>
 
-    <script src="{{ asset('js/app.js').'?v=2' }}"></script>
+    <script src="{{ asset('js/app.js').'?v=3' }}"></script>
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="https://kit.fontawesome.com/ce4529ea37.js" crossorigin="anonymous"></script>
