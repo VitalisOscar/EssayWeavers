@@ -97,7 +97,7 @@ class Writer extends Authenticatable
             ->sum('amount');
     }
 
-    function toArray(){
+    function getAccountSummary(){
         $clearedEarnings = 0;
         $cancelledEarnings = 0;
         $pendingEarnings = 0;
@@ -111,6 +111,25 @@ class Writer extends Authenticatable
         }
 
         return [
+            'pending' => $pendingEarnings,
+            'pending_formatted' => 'KES '.number_format($pendingEarnings),
+
+            'cancelled' => $cancelledEarnings,
+            'cancelled_formatted' => 'KES '.number_format($cancelledEarnings),
+
+            'cleared' => $clearedEarnings,
+            'cleared_formatted' => 'KES '.number_format($clearedEarnings),
+
+            'paid_out' => $totalPayouts,
+            'paid_out_formatted' => 'KES '.number_format($totalPayouts),
+
+            'available' => $clearedEarnings - $totalPayouts,
+            'available_formatted' => 'KES '.number_format($clearedEarnings - $totalPayouts),
+        ];
+    }
+
+    function toArray(){
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
@@ -119,22 +138,7 @@ class Writer extends Authenticatable
             'date' => $this->date_added_formatted,
             'cpp' => $this->cpp,
             'cpp_formatted' => 'KES '.number_format($this->cpp),
-            'accounts' => [
-                'pending' => $pendingEarnings,
-                'pending_formatted' => 'KES '.number_format($pendingEarnings),
-
-                'cancelled' => $cancelledEarnings,
-                'cancelled_formatted' => 'KES '.number_format($cancelledEarnings),
-
-                'cleared' => $clearedEarnings,
-                'cleared_formatted' => number_format($clearedEarnings),
-
-                'paid_out' => $totalPayouts,
-                'paid_out_formatted' => 'KES '.number_format($totalPayouts),
-
-                'available' => $clearedEarnings - $totalPayouts,
-                'available_formatted' => 'KES '.number_format($clearedEarnings - $totalPayouts),
-            ],
+            'accounts' => $this->getAccountSummary(),
         ];
     }
 

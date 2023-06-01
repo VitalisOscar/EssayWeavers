@@ -114,10 +114,10 @@ class Order extends Model
         }
 
         if($this->isAllocated()){
-            return $this->allocated_writers->first();
+            return $this->allocated_writers->sortByDesc('created_at')->first();
         }
 
-        return $this->assigned_writers->first();
+        return $this->assigned_writers->sortByDesc('created_at')->first();
     }
 
     function getCurrentAllocationAttribute(){

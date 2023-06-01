@@ -21,7 +21,7 @@ class Payout extends Model
 
     // Accessors
     function getAmountFormattedAttribute(){
-        return 'KSh '.number_format($this->amount);
+        return 'KES '.number_format($this->amount);
     }
 
     function getDateAddedFormattedAttribute(){

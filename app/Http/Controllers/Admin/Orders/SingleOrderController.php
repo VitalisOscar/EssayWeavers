@@ -20,6 +20,9 @@ use App\Models\Issue;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\Writer;
+use App\Notifications\NewOrderPaymentNotification;
+use App\Notifications\OrderCancelledNotification;
+use App\Notifications\OrderSettledNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -213,7 +216,7 @@ class SingleOrderController extends Controller
                 ->first();
 
             // Add the payment
-            $assignment->payments()->create([
+            $payment = $assignment->payments()->create([
                 'amount' => $request->post('amount'),
                 'type' => $request->post('type'),
                 'status' => $order->isSettled() ?
@@ -223,6 +226,15 @@ class SingleOrderController extends Controller
             NewOrderPaymentEvent::dispatch($order);
 
             DB::commit();
+
+            $orderData = $order->adminArray();
+
+            $order->current_writer->notify(new NewOrderPaymentNotification(
+                $order,
+                $payment->amount_formatted,
+                $payment->type,
+                $orderData['writer_price_formatted']
+            ));
 
             return $this->json([
                 'success' => true,
@@ -273,6 +285,11 @@ class SingleOrderController extends Controller
 
             DB::commit();
 
+            $order->current_writer->notify(new OrderSettledNotification(
+                $order,
+                'KES '.number_format($assignment->payments->sum('amount'))
+            ));
+
             return $this->json([
                 'success' => true,
                 'data' => $order->adminFresh(),
@@ -319,9 +336,15 @@ class SingleOrderController extends Controller
                 ]);
             }
 
+            $shouldNotify = true;
+            $previousStatus = $order->status;
+
             // For allocated orders which have not been accepted yet, delete the allocation
             if($order->isAllocated()){
                 $order->allocations()->delete();
+
+                // We won't notify the writer
+                $shouldNotify = false;
             }
 
             // For orders in progress or complete, mark the assignments as cancelled
@@ -355,6 +378,14 @@ class SingleOrderController extends Controller
             // All Done
             OrderCancelledEvent::dispatch($order);
 
+            if($shouldNotify && $order->current_writer){
+                $order->current_writer->notify(new OrderCancelledNotification(
+                    $order,
+                    $request->post('reason'),
+                    $previousStatus
+                ));
+            }
+
             DB::commit();
 
             return $this->json([
@@ -364,12 +395,12 @@ class SingleOrderController extends Controller
             ]);
         }catch(Exception $e){
             DB::rollBack();
-        }
 
-        return $this->json([
-            'success' => false,
-            'status' => "Something went wrong. Please try again",
-        ]);
+            return $this->json([
+                'success' => false,
+                'status' => "Something went wrong. Please try again: ".$e->getMessage(),
+            ]);
+        }
     }
 
     function editOrderPrice(Request $request, $order){

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Payments;
 use App\Http\Controllers\Controller;
 use App\Models\Payout;
 use App\Models\Writer;
+use App\Notifications\NewWriterPayoutNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller
 {
@@ -32,44 +34,64 @@ class PaymentsController extends Controller
     }
 
     function add(Request $request){
-        $data = app(PaymentsDataController::class);
+        try {
+            DB::beginTransaction();
 
-        $request->request->add(['raw' => 1]);
-        $recepientTypes = $data->recepientTypes($request);
-        $recepients = $data->recepients($request)->pluck('id')->toArray();
+            $data = app(PaymentsDataController::class);
 
-        $validator = validator($request->all(), [
-            'recepient_type' => 'required|in:'.implode(',', $recepientTypes),
-            'recepient_id' => 'required|in:'.implode(',',$recepients),
-            'amount' => 'required|numeric|min:1'
-        ], [
-            'recepient_id.in' => 'Select a valid recepient'
-        ]);
+            $request->request->add(['raw' => 1]);
+            $recepientTypes = $data->recepientTypes($request);
+            $recepients = $data->recepients($request)->pluck('id')->toArray();
 
-        if($validator->fails()){
+            $validator = validator($request->all(), [
+                'recepient_type' => 'required|in:' . implode(',', $recepientTypes),
+                'recepient_id' => 'required|in:' . implode(',', $recepients),
+                'amount' => 'required|numeric|min:1'
+            ], [
+                'recepient_id.in' => 'Select a valid recepient'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->json([
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'status' => 'Please fix the highlighted errors'
+                ]);
+            }
+
+            $payout = Payout::create([
+                'amount' => $request->post('amount'),
+                'recepient_id' => $request->post('recepient_id'),
+                'recepient_type' => $request->post('recepient_type'),
+            ]);
+
+            if ($payout->recepient_type == Writer::MODEL_NAME) {
+                $writer = $payout->recepient;
+                $writer->load(['earnings', 'payouts']);
+                $writer->notify(new NewWriterPayoutNotification($payout, $writer->getAccountSummary()));
+            }
+
+            if ($payout->id) {
+                DB::commit();
+
+                return $this->json([
+                    'success' => true,
+                    'status' => 'Payment has been recorded successfully'
+                ]);
+            }
+
             return $this->json([
                 'success' => false,
-                'errors' => $validator->errors(),
-                'status' => 'Please fix the highlighted errors'
+                'status' => 'Something went wrong. Please retry'
             ]);
-        }
 
-        $writer = Payout::create([
-            'amount' => $request->post('amount'),
-            'recepient_id' => $request->post('recepient_id'),
-            'recepient_type' => $request->post('recepient_type'),
-        ]);
+        }catch (\Exception $e){
+            DB::rollBack();
 
-        if($writer->id){
             return $this->json([
-                'success' => true,
-                'status' => 'Payment has been recorded successfully'
+                'success' => false,
+                'status' => 'Something went wrong. Please retry: '.$e->getMessage()
             ]);
         }
-
-        return $this->json([
-            'success' => false,
-            'status' => 'Something went wrong. Please retry'
-        ]);
     }
 }
