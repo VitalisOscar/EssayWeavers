@@ -55,7 +55,12 @@
                         </div>
 
                         <div class="col-lg-6 py-5">
-                            <img class="img-fluid hero-img" src="{{ asset('img/hero.png') }}" alt="Student assignment">
+                            <div class="position-relative">
+                                <div class="position-absolute p-5 top--2left--2 rounded-lg" style="top: -6px; left: -6px; border-top: 7px solid coral; border-left: 7px solid coral"></div>
+                                <div class="position-absolute p-5 bottom--2right--2 rounded-lg" style="bottom: -6px; right: -6px; border-bottom: 7px solid #5e72e4; border-right: 7px solid #5e72e4"></div>
+
+                                <img class="img-fluid hero-img" src="{{ asset('img/hero.png') }}" alt="Student assignment">
+                            </div>
                         </div>
 
                     </div>
