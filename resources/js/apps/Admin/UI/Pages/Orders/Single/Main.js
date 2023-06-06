@@ -24,7 +24,10 @@ export default function Main(){
     const {adminData, setAdminData} = useContext(AdminContext)
 
     const profit = order.current_writer ?
-        useOrderMetricsProfit(order.price_raw, (order.writer_price_raw + order.bidder_commission)) : 0
+        useOrderMetricsProfit(
+            parseFloat(order.price_raw),
+            (parseFloat(order.writer_price_raw) + parseFloat(order.bidder_commission))
+        ) : 0
     const reviewTime = order.current_writer ?
         useOrderMetricsTimeToDeadline(order.deadline_raw, order.writer_deadline_raw) : '0'
 

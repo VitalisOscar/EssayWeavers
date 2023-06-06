@@ -19,7 +19,10 @@ export default function AllocateOrder(){
 
     const writers = useWriters()
 
-    const profit = useOrderMetricsProfit((order.price_raw - order.bidder_commission), data.writer_price)
+    const profit = useOrderMetricsProfit(
+        (parseFloat(order.price_raw) - parseFloat(order.bidder_commission)),
+        data.writer_price
+    )
     const reviewTime = useOrderMetricsTimeToDeadline(order.deadline_raw, data.writer_deadline)
 
     let selectedWriterName = ' the selected writer'

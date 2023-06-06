@@ -33,11 +33,11 @@ const useOrderMetricsTimeToDeadline = (deadline, compareTime) => {
     }
 }
 
-const useOrderMetricsProfit = (order_price, writer_price) => {
-    let profit = order_price
+const useOrderMetricsProfit = (received_amount, payout_amount) => {
+    let profit = received_amount
 
-    if(writer_price != ''){
-        profit = profit - parseFloat(writer_price)
+    if(payout_amount !== ''){
+        profit = profit - payout_amount
     }
 
     return profit
