@@ -30,7 +30,7 @@ Route::get('login/{guard}', [LoginController::class, 'index'])->name('login');
 Route::post('login/{guard}', [LoginController::class, 'index'])->name('login');
 
 Route::post('account/update-password/{guard}', [PasswordController::class, 'index'])
-    ->name('update_password')->middleware('active');
+    ->name('update_password')->middleware('auth:writer,admin');
 Route::get('logout/{guard}', function($guard){
     auth($guard)->logout();
     return redirect()->route('login', $guard);
