@@ -117,6 +117,16 @@ export default function SingleBidder(){
                         </div>
 
                         <div className="form-group">
+                            <label>Email</label>
+                            <input className="form-control" value={data.email} onChange={(e) => setData({...data, email: e.target.value})} placeholder="e.g jamesmaina@yahoo.com" required />
+                            {
+                                result.errors != undefined && result.errors.email != undefined ?
+                                    <span className="text-danger">{result.errors.email}</span>
+                                    :<span></span>
+                            }
+                        </div>
+
+                        <div className="form-group">
                             <label>Commission Rate</label>
                             <input className="form-control" value={data.commission_rate} onChange={(e) => setData({...data, commission_rate: e.target.value})} placeholder="e.g 10" required />
                             {

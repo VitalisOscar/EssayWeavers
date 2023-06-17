@@ -30,6 +30,7 @@ class BiddersController extends Controller
     function add(Request $request){
         $validator = validator($request->all(), [
             'name' => 'required',
+            'email' => 'required|email',
             'commission_rate' => 'required|numeric|min:0'
         ]);
 
@@ -43,6 +44,7 @@ class BiddersController extends Controller
 
         $bidder = Bidder::create([
             'name' => $request->post('name'),
+            'email' => $request->post('email'),
             'commission_rate' => $request->post('commission_rate'),
         ]);
 
@@ -63,6 +65,7 @@ class BiddersController extends Controller
 
         $validator = validator($request->all(), [
             'name' => 'required',
+            'email' => 'required|email',
             'commission_rate' => 'required|numeric|min:0'
         ]);
 
@@ -76,6 +79,7 @@ class BiddersController extends Controller
 
         $bidder->update([
             'name' => $request->post('name'),
+            'email' => $request->post('email'),
             'commission_rate' => $request->post('commission_rate'),
         ]);
 

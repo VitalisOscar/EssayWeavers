@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Bidder extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     const MODEL_NAME = 'Bidder';
 
@@ -63,6 +64,7 @@ class Bidder extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'commission_rate' => $this->commission_rate,
             'commission_rate_formatted' => $this->commission_rate.'%',
             'date' => $this->date_added_formatted,

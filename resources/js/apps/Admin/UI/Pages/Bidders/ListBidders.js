@@ -95,6 +95,7 @@ export default function ListBidders(){
                             <tr className="sticky-top bg-default text-white">
                                 <td><strong>#</strong></td>
                                 <td><strong>Name</strong></td>
+                                <td><strong>Email</strong></td>
                                 <td><strong>Commission Rate</strong></td>
                                 <td><strong>Total Orders</strong></td>
                                 <td><strong>Available Bal</strong></td>
@@ -107,7 +108,7 @@ export default function ListBidders(){
                                 ((result.data ?? []).length == 0) ?
 
                                 <tr>
-                                    <td colSpan="5">
+                                    <td colSpan="8">
                                         No data in table
                                     </td>
                                 </tr>
@@ -128,6 +129,10 @@ export default function ListBidders(){
 
                                             <td>
                                                 {item.name}
+                                            </td>
+
+                                            <td>
+                                                {item.email}
                                             </td>
 
                                             <td style={{maxWidth: '200px'}}>

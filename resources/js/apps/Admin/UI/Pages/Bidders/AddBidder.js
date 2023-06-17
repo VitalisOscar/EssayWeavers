@@ -21,7 +21,8 @@ export default function AddBidder(){
     const [posting, setPosting] = useState(false)
     const [data, setData] = useState({
         commission_rate: '',
-        name: ''
+        name: '',
+        email: ''
     })
 
     function onSubmit(event){
@@ -96,6 +97,16 @@ export default function AddBidder(){
                                     result.errors != undefined && result.errors.name != undefined ?
                                     <span className="text-danger">{result.errors.name}</span>
                                     :<span></span>
+                                }
+                            </div>
+
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input className="form-control" value={data.email} onChange={(e) => setData({...data, email: e.target.value})} placeholder="e.g jamesmaina@yahoo.com" required />
+                                {
+                                    result.errors != undefined && result.errors.email != undefined ?
+                                        <span className="text-danger">{result.errors.email}</span>
+                                        :<span></span>
                                 }
                             </div>
 

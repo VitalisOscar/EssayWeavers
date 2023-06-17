@@ -33,7 +33,8 @@ class PaymentsDataController extends Controller
         }
 
         if(strtolower($request->get('recepient_type')) == 'bidder'){
-            $recepients = Bidder::all()
+            $recepients = Bidder::with(['payouts', 'payments'])
+                ->get()
                 ->map(function($writer){
                     return $writer->toArray();
                 });
