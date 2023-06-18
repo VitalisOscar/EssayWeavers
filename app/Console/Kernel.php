@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command(SendWeeklyBidderSummaryCmd::class)->weeklyOn(0, '18:00');
+         $schedule->command(SendWeeklyBidderSummaryCmd::class)->weeklyOn(0, '21:00');
     }
 
     /**

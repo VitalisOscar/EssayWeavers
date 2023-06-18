@@ -41,7 +41,7 @@ class SendWeeklyBidderSummaryCmd extends Command
     public function handle()
     {
         $from = now()->endOfWeek()->subWeek();
-        $from->setHour(18)->setMinute(1);
+        $from->setHour(21)->setMinute(1);
         $this->line("Sending summary from ".$from->toDayDateTimeString());
 
         $bidders = Bidder::with([
